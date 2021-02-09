@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import UserCard from "./components/UserCard";
 import Followers from "./components/Followers";
+import Form from "./components/Form";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
@@ -12,48 +13,66 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: "dgamboa",
+      username: "",
       user: {},
       followers: []
     }
   }
 
-  // getUsers() {
-  //   axios.get(`https://api.github.com/users/${this.state.username}`)
-  //     .then(res => {
-  //       console.log(res);
-  //       this.setState({
-  //         user: res.data
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
+  setUsername = (newUsername) => {
+    this.setState({
+      username: newUsername
+    })
+  }
 
-  // getFollowers() {
-  //   axios.get(`https://api.github.com/users/${this.state.username}/followers`)
-  //     .then(res => {
-  //       console.log(res);
-  //       this.setState({
-  //         followers: res.data
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
+  getUsers() {
+    axios.get(`https://api.github.com/users/${this.state.username}`)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          user: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
-  // componentDidMount() {
-  //   this.getUsers();
-  //   this.getFollowers();
-  // }
+  getFollowers() {
+    axios.get(`https://api.github.com/users/${this.state.username}/followers`)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          followers: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  componentDidMount() {
+    if (this.state.username) {
+      this.getUsers();
+      this.getFollowers();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.username) {
+      this.getUsers();
+      this.getFollowers();
+    }
+  }
   
   render() {
     return (
       <StyledContainer className="container">
+        <Form username={this.username} setUsername={this.setUsername}/>
         <UserCard user={this.state.user}/>
-        <Followers followers={this.state.followers}/>
+        {this.username
+          ? <Followers followers={this.state.followers}/>
+          : <div></div>}
       </StyledContainer>
     )
   }

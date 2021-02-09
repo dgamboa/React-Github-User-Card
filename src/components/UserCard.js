@@ -28,12 +28,16 @@ export default function UserCard({ user }) {
     <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={user.avatar_url} />
       <Card.Body>
-        <Card.Title>{user.name || "Name"}</Card.Title>
-        <Card.Text>{user.bio || "Bio"}</Card.Text>
-        <Card.Link href={user.html_url} target="_blank">GitHub Profile</Card.Link>
+        <Card.Title>{user.name || "Please enter a GitHub username"}</Card.Title>
+        <Card.Text>{user.bio}</Card.Text>
+        <Card.Link href={user.html_url} target="_blank">
+          {user.name ? "GitHub Profile" : ""}
+        </Card.Link>
       </Card.Body>
       <Card.Footer>
-        <small className="text-muted">{`Joined ${timeAgo()}`}</small>
+        <small className="text-muted">
+          {user.name ? `Joined ${timeAgo()}` : ""}
+        </small>
       </Card.Footer>
     </Card>
   )
