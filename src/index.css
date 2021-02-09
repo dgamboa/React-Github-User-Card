@@ -19,4 +19,8 @@ code {
 #dropdown-basic {
   margin: 10px auto;
   display: block;
+  background-color: white;
+  color: #888;
+  border: none;
+  font-style: italic;
 }

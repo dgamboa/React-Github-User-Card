@@ -30,6 +30,7 @@ export default function UserCard({ user }) {
       <Card.Body>
         <Card.Title>{user.name || "Name"}</Card.Title>
         <Card.Text>{user.bio || "Bio"}</Card.Text>
+        <Card.Link href={user.html_url} target="_blank">GitHub Profile</Card.Link>
       </Card.Body>
       <Card.Footer>
         <small className="text-muted">{`Joined ${timeAgo()}`}</small>
