@@ -25,7 +25,10 @@ class App extends React.Component {
     console.log(newUsername)
     this.setState({
       username: newUsername
-    });
+    }, () => this.populateData());
+  }
+
+  populateData() {
     this.getUsers();
     this.getFollowers();
   }
@@ -62,10 +65,8 @@ class App extends React.Component {
 
   componentDidMount() {    
     this.setState({
-      username: "octocat",
-      user: initialUser,
-      followers: initialFollowers
-    })
+      username: "octocat"
+    }, () => this.populateData())
   }
   
   render() {
