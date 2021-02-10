@@ -5,6 +5,7 @@ import Followers from "./components/Followers";
 import Form from "./components/Form";
 import styled from "styled-components";
 import { initialFollowers, initialUser } from "./modules/UserData";
+import { AUTH } from './AUTH';
 
 const StyledContainer = styled.div`
   margin-top: 40px;
@@ -14,7 +15,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: "octocat",
+      username: "",
       user: {},
       followers: []
     }
@@ -30,7 +31,9 @@ class App extends React.Component {
   }
 
   getUsers() {
-    axios.get(`https://api.github.com/users/${this.state.username}`)
+    axios.get(`https://api.github.com/users/${this.state.username}`, {
+      auth: AUTH
+    })
       .then(res => {
         console.log(res);
         this.setState({
@@ -43,7 +46,9 @@ class App extends React.Component {
   }
 
   getFollowers() {
-    axios.get(`https://api.github.com/users/${this.state.username}/followers`)
+    axios.get(`https://api.github.com/users/${this.state.username}/followers`, {
+      auth: AUTH
+    })
       .then(res => {
         console.log(res);
         this.setState({
@@ -55,13 +60,11 @@ class App extends React.Component {
       })
   }
 
-  componentDidMount() {
-    const baseUser = initialUser;
-    const baseFollowers = initialFollowers;
-    
+  componentDidMount() {    
     this.setState({
-      user: baseUser,
-      followers: baseFollowers
+      username: "octocat",
+      user: initialUser,
+      followers: initialFollowers
     })
   }
   
@@ -70,7 +73,7 @@ class App extends React.Component {
       <StyledContainer className="container">
         <Form username={this.username} setUsername={this.setUsername}/>
         <UserCard user={this.state.user}/>
-        <Followers followers={this.state.followers}/>
+        <Followers followers={this.state.followers}/> 
       </StyledContainer>
     )
   }
