@@ -4,6 +4,7 @@ import UserCard from "./components/UserCard";
 import Followers from "./components/Followers";
 import Form from "./components/Form";
 import styled from "styled-components";
+import { initialFollowers, initialUser } from "./modules/UserData";
 
 const StyledContainer = styled.div`
   margin-top: 40px;
@@ -13,16 +14,19 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: "",
+      username: "octocat",
       user: {},
       followers: []
     }
   }
 
   setUsername = (newUsername) => {
+    console.log(newUsername)
     this.setState({
       username: newUsername
-    })
+    });
+    this.getUsers();
+    this.getFollowers();
   }
 
   getUsers() {
@@ -52,17 +56,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.username) {
-      this.getUsers();
-      this.getFollowers();
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.state.username) {
-      this.getUsers();
-      this.getFollowers();
-    }
+    const baseUser = initialUser;
+    const baseFollowers = initialFollowers;
+    
+    this.setState({
+      user: baseUser,
+      followers: baseFollowers
+    })
   }
   
   render() {
@@ -70,9 +70,7 @@ class App extends React.Component {
       <StyledContainer className="container">
         <Form username={this.username} setUsername={this.setUsername}/>
         <UserCard user={this.state.user}/>
-        {this.username
-          ? <Followers followers={this.state.followers}/>
-          : <div></div>}
+        <Followers followers={this.state.followers}/>
       </StyledContainer>
     )
   }

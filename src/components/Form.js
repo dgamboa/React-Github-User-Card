@@ -2,7 +2,6 @@ import React from "react";
 
 export default function Form({ username, setUsername }) {
   const handleInput = (e) => {
-    console.log(e.target[0].value)
     e.preventDefault();
     setUsername(e.target[0].value);
   }
