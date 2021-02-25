@@ -1,25 +1,83 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import axios from "axios";
+import UserCard from "./components/UserCard";
+import Followers from "./components/Followers";
+import Form from "./components/Form";
+import styled from "styled-components";
+import { initialFollowers, initialUser } from "./modules/UserData";
+import { AUTH } from './AUTH';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const StyledContainer = styled.div`
+  margin-top: 40px;
+`;
+
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      username: "",
+      user: {},
+      followers: []
+    }
+  }
+
+  setUsername = (newUsername) => {
+    console.log(newUsername)
+    this.setState({
+      username: newUsername
+    }, () => this.populateData());
+  }
+
+  populateData() {
+    this.getUsers();
+    this.getFollowers();
+  }
+
+  getUsers() {
+    axios.get(`https://api.github.com/users/${this.state.username}`, {
+      auth: AUTH
+    })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          user: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  getFollowers() {
+    axios.get(`https://api.github.com/users/${this.state.username}/followers`, {
+      auth: AUTH
+    })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          followers: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  componentDidMount() {    
+    this.setState({
+      username: "octocat"
+    }, () => this.populateData())
+  }
+  
+  render() {
+    return (
+      <StyledContainer className="container">
+        <Form username={this.username} setUsername={this.setUsername}/>
+        <UserCard user={this.state.user}/>
+        <Followers followers={this.state.followers}/> 
+      </StyledContainer>
+    )
+  }
 }
 
 export default App;
