@@ -20,7 +20,6 @@ class App extends React.Component {
   }
 
   setUsername = (newUsername) => {
-    console.log(newUsername)
     this.setState({
       username: newUsername
     }, () => this.populateData());
@@ -36,7 +35,6 @@ class App extends React.Component {
       auth: process.env.REACT_APP_AUTH
     })
       .then(res => {
-        console.log(res);
         this.setState({
           user: res.data
         });
@@ -51,7 +49,6 @@ class App extends React.Component {
       auth: process.env.REACT_APP_AUTH
     })
       .then(res => {
-        console.log(res);
         this.setState({
           followers: res.data
         });
