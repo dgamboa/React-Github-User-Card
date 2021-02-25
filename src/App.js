@@ -4,7 +4,6 @@ import UserCard from "./components/UserCard";
 import Followers from "./components/Followers";
 import Form from "./components/Form";
 import styled from "styled-components";
-import { initialFollowers, initialUser } from "./modules/UserData";
 
 const StyledContainer = styled.div`
   margin-top: 40px;
