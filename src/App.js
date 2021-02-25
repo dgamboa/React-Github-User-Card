@@ -5,7 +5,6 @@ import Followers from "./components/Followers";
 import Form from "./components/Form";
 import styled from "styled-components";
 import { initialFollowers, initialUser } from "./modules/UserData";
-import { AUTH } from './AUTH';
 
 const StyledContainer = styled.div`
   margin-top: 40px;
@@ -35,7 +34,7 @@ class App extends React.Component {
 
   getUsers() {
     axios.get(`https://api.github.com/users/${this.state.username}`, {
-      auth: AUTH
+      auth: process.env.REACT_APP_AUTH
     })
       .then(res => {
         console.log(res);
@@ -50,7 +49,7 @@ class App extends React.Component {
 
   getFollowers() {
     axios.get(`https://api.github.com/users/${this.state.username}/followers`, {
-      auth: AUTH
+      auth: process.env.REACT_APP_AUTH
     })
       .then(res => {
         console.log(res);
